@@ -9,5 +9,6 @@ class DigestAuthCounter(models.Model):
 
     created = models.DateTimeField(auto_now_add=True)
 
-    class Meta:
-        unique_together = ('server_nonce', 'client_nonce')
+    # Commented this because MYSQL can't create a unique_together with text fields.
+    # class Meta:
+    #     unique_together = ('server_nonce', 'client_nonce')
