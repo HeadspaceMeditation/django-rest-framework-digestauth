@@ -7,7 +7,7 @@ readme = "README.md"
 packages = [{include = "rest_framework_digestauth"}]
 
 [tool.poetry.dependencies]
-python = "3.7.16"
+python = "^3.7"
 
 django = "1.11.29"
 djangorestframework = "3.11.2"
