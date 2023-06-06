@@ -9,7 +9,7 @@ packages = [{include = "rest_framework_digestauth"}]
 [tool.poetry.dependencies]
 python = "^3.7"
 
-django = "1.11.29"
+django = "2.2.28"
 djangorestframework = "3.11.2"
 six = "1.16.0"
 
