@@ -33,10 +33,10 @@ def build_digest_header(username, password, challenge_header, method, path):
         return hashlib.md5(x).hexdigest()
     hash_utf8 = md5_utf8
 
-    KD = lambda s, d: hash_utf8("%s:%s" % (s, d))
+    KD = lambda s, d: hash_utf8("{}:{}".format(s, d))
 
-    A1 = '%s:%s:%s' % (username, realm, password)
-    A2 = '%s:%s' % (method, path)
+    A1 = '{}:{}:{}'.format(username, realm, password)
+    A2 = '{}:{}'.format(method, path)
 
     nonce_count = 1
     ncvalue = '%08x' % nonce_count
@@ -46,7 +46,7 @@ def build_digest_header(username, password, challenge_header, method, path):
     s += os.urandom(8)
 
     cnonce = (hashlib.sha1(s).hexdigest()[:16])
-    noncebit = "%s:%s:%s:%s:%s" % (nonce, ncvalue, cnonce, qop, hash_utf8(A2))
+    noncebit = "{}:{}:{}:{}:{}".format(nonce, ncvalue, cnonce, qop, hash_utf8(A2))
     respdig = KD(hash_utf8(A1), noncebit)
 
     base = 'username="%s", realm="%s", nonce="%s", uri="%s", '\
@@ -56,7 +56,7 @@ def build_digest_header(username, password, challenge_header, method, path):
     if opaque:
         base += ', opaque="%s"' % opaque
     if qop:
-        base += ', qop=auth, nc=%s, cnonce="%s"' % (ncvalue, cnonce)
+        base += ', qop=auth, nc={}, cnonce="{}"'.format(ncvalue, cnonce)
     return 'Digest %s' % base
 
 

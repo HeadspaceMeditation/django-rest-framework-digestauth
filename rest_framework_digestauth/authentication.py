@@ -29,8 +29,8 @@ class DigestAuthentication(BaseAuthentication):
     token_model = TokenAuthentication.model
 
     def authenticate(self, request):
-        if 'HTTP_AUTHORIZATION' in request.META:
-            self.parse_authorization_header(request.META['HTTP_AUTHORIZATION'])
+        if 'authorization' in request.headers:
+            self.parse_authorization_header(request.headers['authorization'])
             self.check_authorization_request_header()
             user = self.get_user()
             password = self.get_token(user)
@@ -41,7 +41,7 @@ class DigestAuthentication(BaseAuthentication):
         """
         Builds the WWW-Authenticate response header
         """
-        nonce_data = '%s:%s' % (self.realm, os.urandom(8))
+        nonce_data = '{}:{}'.format(self.realm, os.urandom(8))
         nonce = self.hash_func(nonce_data)
 
         header_format = 'Digest realm="%(realm)s", qop="%(qop)s",' \
